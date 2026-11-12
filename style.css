@@ -1,0 +1,517 @@
+/* =========================================================
+   MAISON ÉLITE: style.css
+   Theme variables, glass, buttons, hero, cursor, grain,
+   forms, and reduced-motion support.
+   ========================================================= */
+
+/* ---------- Theme variables (dark is default) ---------- */
+:root {
+  --ink: 10 10 10;        /* background (black) */
+  --ivory: 245 241 234;   /* main text (ivory) */
+  --muted: 160 158 152;   /* soft grey text */
+}
+
+/* Light mode swaps black and ivory */
+html.light {
+  --ink: 245 241 234;
+  --ivory: 10 10 10;
+  --muted: 95 93 88;
+}
+
+html {
+  background: rgb(var(--ink));
+  -webkit-text-size-adjust: 100%;
+}
+
+::selection {
+  background: #c9a96e;
+  color: #0a0a0a;
+}
+
+/* ---------- Typography helpers ---------- */
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #c9a96e;
+}
+
+/* ---------- Glassmorphism ---------- */
+.glass {
+  background: rgb(var(--ivory) / 0.06);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgb(201 169 110 / 0.22);
+  box-shadow: 0 20px 60px -25px rgb(0 0 0 / 0.6);
+}
+
+/* ---------- Buttons ---------- */
+.btn-gold,
+.btn-outline {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 1rem 2rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  transition: color 0.5s ease, border-color 0.5s ease, background-color 0.5s ease;
+}
+
+/* Gold fill that sweeps left to right on hover */
+.btn-gold {
+  border: 1px solid #c9a96e;
+  color: #f5f1ea;
+}
+
+.btn-gold::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: #c9a96e;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+/* Shine sweep */
+.btn-gold::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -75%;
+  width: 50%;
+  z-index: -1;
+  background: linear-gradient(120deg, transparent, rgb(255 255 255 / 0.45), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.9s ease;
+}
+
+.btn-gold:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-gold:hover::after {
+  left: 130%;
+}
+
+.btn-gold:hover {
+  color: #0a0a0a;
+}
+
+.btn-outline {
+  border: 1px solid rgb(201 169 110 / 0.45);
+  color: #c9a96e;
+}
+
+.btn-outline:hover {
+  background: rgb(201 169 110 / 0.12);
+  border-color: #c9a96e;
+}
+
+/* ---------- Navbar links: animated gold underline ---------- */
+.nav-link {
+  position: relative;
+  padding-bottom: 6px;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: #c9a96e;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* ---------- Word masks for text reveals ---------- */
+.mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.08em 0.12em 0.14em;
+  margin: -0.08em -0.12em -0.14em;
+}
+
+.word {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
+/* ---------- Hero ---------- */
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: kenburns 18s ease-out infinite alternate;
+}
+
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.15); }
+}
+
+.hero-title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(3.2rem, 9vw, 9.5rem);
+  line-height: 0.95;
+  color: #f5f1ea;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.hero-dot {
+  transition: color 0.4s ease;
+}
+
+.hero-dot.is-active {
+  color: #c9a96e;
+}
+
+#hero-progress {
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+
+.scroll-cue {
+  animation: cue 2.2s ease-in-out infinite;
+}
+
+@keyframes cue {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50%      { transform: translateY(10px); opacity: 1; }
+}
+
+/* ---------- Marquee ---------- */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---------- Feature cards (Why Choose Us) ---------- */
+.feature-card {
+  transition: transform 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  border-color: rgb(201 169 110 / 0.7);
+  box-shadow: 0 30px 80px -30px rgb(201 169 110 / 0.45);
+}
+
+.icon-ring {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  border: 1px solid rgb(201 169 110 / 0.5);
+  color: #c9a96e;
+}
+
+.icon-ring svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* ---------- Form fields ---------- */
+.field-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #c9a96e;
+}
+
+.field-input,
+.field-select,
+.field-textarea {
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid rgb(201 169 110 / 0.25);
+  background: rgb(var(--ink) / 0.5);
+  color: rgb(var(--ivory));
+  padding: 1rem 1.25rem;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.field-select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.field-input:focus,
+.field-select:focus,
+.field-textarea:focus {
+  border-color: #c9a96e;
+  box-shadow: 0 0 0 4px rgb(201 169 110 / 0.12);
+}
+
+.field-input[aria-invalid="true"],
+.field-select[aria-invalid="true"],
+.field-textarea[aria-invalid="true"] {
+  border-color: #d46a6a;
+}
+
+/* Floating labels: label sits over the input until it is focused or filled */
+.float-label {
+  position: absolute;
+  left: 1.25rem;
+  top: 1.1rem;
+  pointer-events: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  transition: all 0.3s ease;
+}
+
+.field-input:focus + .float-label,
+.field-input:not(:placeholder-shown) + .float-label,
+.field-textarea:focus + .float-label,
+.field-textarea:not(:placeholder-shown) + .float-label {
+  top: 0.45rem;
+  font-size: 0.6rem;
+}
+
+.field-textarea + .float-label {
+  top: 1.1rem;
+}
+
+.field-error {
+  min-height: 1rem;
+  margin-top: 0.35rem;
+  padding-left: 0.5rem;
+  font-size: 0.75rem;
+  color: #e08a8a;
+}
+
+/* ---------- Agents: socials hidden until hover on desktop ---------- */
+.agent .socials {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.7rem;
+}
+
+/* ---------- Grain (cinematic texture) ---------- */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 6s steps(8) infinite;
+}
+
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-3%, 2%); }
+  50%  { transform: translate(2%, -3%); }
+  75%  { transform: translate(-2%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- Custom cursor (desktop only) ---------- */
+html.has-cursor a,
+html.has-cursor button,
+html.has-cursor [data-cursor] {
+  cursor: none;
+}
+
+/* ---------- Back-to-top ring ---------- */
+.progress-ring {
+  transition: stroke-dashoffset 0.2s linear;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .grain,
+  .marquee-track {
+    animation: none !important;
+  }
+}
+
+/* =========================================================
+   ADDITIONS (sections rebuilt after the original was cut)
+   ========================================================= */
+
+/* Lenis smooth scroll recommended base styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Hero title stack: gives the absolutely positioned titles a height */
+.hero-title-wrap {
+  position: relative;
+  height: calc(clamp(3.2rem, 9vw, 9.5rem) * 1.15);
+}
+
+/* Custom cursor states */
+#cursor-dot,
+#cursor-ring {
+  will-change: transform;
+}
+
+#cursor-ring {
+  transition: width 0.35s ease, height 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
+}
+
+#cursor-ring.is-hover {
+  width: 4.5rem;
+  height: 4.5rem;
+  background: rgb(201 169 110 / 0.08);
+}
+
+#cursor-ring.is-view {
+  width: 5.5rem;
+  height: 5.5rem;
+  background: rgb(10 10 10 / 0.55);
+  border-color: #c9a96e;
+}
+
+/* Property cards: zoom, gold glow, lift, details slide in, 3D tilt */
+.property-card {
+  transform-style: preserve-3d;
+  transition: box-shadow 0.6s ease, border-color 0.6s ease;
+}
+
+.property-card:hover {
+  border-color: rgb(201 169 110 / 0.75);
+  box-shadow: 0 40px 90px -35px rgb(201 169 110 / 0.5);
+}
+
+.property-card .card-img {
+  transition: transform 1.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.property-card:hover .card-img {
+  transform: scale(1.1);
+}
+
+.property-card .card-details {
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.6s ease;
+}
+
+@media (hover: hover) {
+  .property-card .card-extra {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease, opacity 0.6s ease;
+  }
+
+  .property-card:hover .card-extra {
+    max-height: 4rem;
+    opacity: 1;
+  }
+}
+
+/* Floating-label inputs need room for the raised label */
+.field-input.has-float,
+.field-textarea.has-float {
+  padding-top: 1.45rem;
+  padding-bottom: 0.65rem;
+}
+
+/* Lightbox */
+#lightbox {
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+#lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+#lightbox img {
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform: scale(0.94);
+}
+
+#lightbox.is-open img {
+  transform: scale(1);
+}
+
+/* Mobile menu */
+#mobile-menu {
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+#mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hide scrollbar on the mobile horizontal property rail */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Big footer word */
+.footer-word {
+  font-size: 10.5vw;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  .footer-word {
+    font-size: min(14vw, 15rem);
+  }
+}

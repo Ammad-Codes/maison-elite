@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>MAISON ÉLITE | Luxury Villas, Penthouses &amp; Mansions</title>
+  <meta name="description" content="MAISON ÉLITE curates the world's most exclusive villas, penthouses and mansions." />
+
+  <!-- Fonts: Playfair Display (headings), Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS (CDN for development). For production, use the Tailwind CLI. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Theme colors use CSS variables so light/dark mode can swap them.
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: 'rgb(var(--ink) / <alpha-value>)',
+            ivory: 'rgb(var(--ivory) / <alpha-value>)',
+            muted: 'rgb(var(--muted) / <alpha-value>)',
+            gold: { DEFAULT: '#c9a96e', soft: '#e3cfa6', deep: '#9c7a45' }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230a0a0a'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' text-anchor='middle' fill='%23c9a96e'%3EME%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="bg-ink font-sans text-ivory antialiased overflow-x-hidden">
+
+  <!-- ============ PRELOADER ============ -->
+  <div id="preloader" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-ink">
+    <p class="font-serif text-2xl tracking-[0.4em] md:text-4xl">MAISON <span class="text-gold">ÉLITE</span></p>
+    <div class="mt-10 h-px w-56 overflow-hidden bg-ivory/15">
+      <div id="pre-line" class="h-full w-full origin-left bg-gold"></div>
+    </div>
+  </div>
+
+  <!-- ============ CUSTOM CURSOR (desktop only) ============ -->
+  <div id="cursor-dot" class="pointer-events-none fixed left-0 top-0 z-[90] hidden h-2 w-2 rounded-full bg-gold md:block"></div>
+  <div id="cursor-ring" class="pointer-events-none fixed left-0 top-0 z-[89] hidden h-11 w-11 items-center justify-center rounded-full border border-gold/60 md:flex">
+    <span id="cursor-label" class="text-[9px] tracking-[0.2em] text-gold opacity-0"></span>
+  </div>
+
+  <!-- Cinematic grain overlay -->
+  <div class="grain"></div>
+
+  <!-- ============ BACK TO TOP ============ -->
+  <button id="back-to-top" aria-label="Back to top"
+    class="glass pointer-events-none fixed bottom-6 right-6 z-40 grid h-14 w-14 place-items-center rounded-full opacity-0 transition-opacity duration-500">
+    <svg class="absolute inset-0 -rotate-90" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="2" />
+      <circle class="progress-ring" cx="24" cy="24" r="22" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linecap="round" />
+    </svg>
+    <span class="text-lg text-gold">↑</span>
+  </button>
+
+  <!-- ============ 1. NAVBAR ============ -->
+  <header id="navbar" class="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-10">
+    <nav class="glass mx-auto flex max-w-7xl items-center justify-between rounded-full px-5 py-3 md:px-8">
+      <a href="#hero" class="magnetic font-serif text-lg tracking-[0.3em] md:text-xl">MAISON <span class="text-gold">ÉLITE</span></a>
+
+      <ul class="hidden items-center gap-8 text-xs uppercase tracking-[0.2em] lg:flex">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#featured" class="nav-link">Properties</a></li>
+        <li><a href="#search" class="nav-link">Search</a></li>
+        <li><a href="#agents" class="nav-link">Agents</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle" aria-label="Toggle light and dark mode"
+          class="magnetic grid h-10 w-10 place-items-center rounded-full border border-gold/40 text-gold transition-colors hover:bg-gold/10">
+          <svg id="icon-moon" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+          <svg id="icon-sun" class="hidden h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <a href="#contact" class="btn-gold magnetic hidden !px-6 !py-3 md:inline-flex">Book Private Viewing</a>
+        <button id="menu-btn" aria-label="Open menu" aria-expanded="false"
+          class="grid h-10 w-10 place-items-center rounded-full border border-gold/40 text-gold lg:hidden">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h16M4 16h16"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="invisible fixed inset-0 z-[55] flex flex-col items-center justify-center gap-8 bg-ink/95 opacity-0 backdrop-blur-xl lg:hidden">
+    <button id="menu-close" aria-label="Close menu" class="absolute right-6 top-6 grid h-11 w-11 place-items-center rounded-full border border-gold/40 text-2xl text-gold">×</button>
+    <a href="#about" class="mobile-link font-serif text-4xl">About</a>
+    <a href="#featured" class="mobile-link font-serif text-4xl">Properties</a>
+    <a href="#search" class="mobile-link font-serif text-4xl">Search</a>
+    <a href="#agents" class="mobile-link font-serif text-4xl">Agents</a>
+    <a href="#contact" class="mobile-link font-serif text-4xl">Contact</a>
+    <a href="#contact" class="mobile-link btn-gold mt-4">Book Private Viewing</a>
+  </div>
+
+  <main>
+    <!-- ============ 2. HERO (pinned, text + image change on scroll) ============ -->
+    <section id="hero" class="relative h-screen w-full overflow-hidden bg-[#0a0a0a]">
+      <div class="hero-bg absolute inset-0 opacity-0">
+        <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=2000&q=80" alt="Modern luxury villa with pool at dusk" />
+      </div>
+      <div class="hero-bg absolute inset-0 opacity-0">
+        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=2000&q=80" alt="Penthouse tower against the sky" />
+      </div>
+      <div class="hero-bg absolute inset-0 opacity-0">
+        <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=2000&q=80" alt="Beach house terrace facing the ocean" />
+      </div>
+      <div class="hero-bg absolute inset-0 opacity-0">
+        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=2000&q=80" alt="Grand mansion with landscaped garden" />
+      </div>
+
+      <!-- Dark gradient overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/45 to-[#0a0a0a]/55"></div>
+
+      <div class="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-6 pb-20 text-[#f5f1ea] md:px-10 md:pb-24">
+        <p class="eyebrow mb-6">Private Collection · 2026</p>
+
+        <div class="hero-title-wrap">
+          <h1 class="hero-title"><span class="mask"><span class="word">Live</span></span>&nbsp;<span class="mask"><span class="word italic text-gold">Above</span></span></h1>
+          <h2 class="hero-title" aria-hidden="true"><span class="mask"><span class="word">Live</span></span>&nbsp;<span class="mask"><span class="word italic text-gold">Beyond</span></span></h2>
+          <h2 class="hero-title" aria-hidden="true"><span class="mask"><span class="word">Live</span></span>&nbsp;<span class="mask"><span class="word italic text-gold">Luxury</span></span></h2>
+          <h2 class="hero-title" aria-hidden="true"><span class="mask"><span class="word">Live</span></span>&nbsp;<span class="mask"><span class="word italic text-gold">Forever</span></span></h2>
+        </div>
+
+        <div class="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <p class="max-w-md text-sm leading-relaxed text-[#f5f1ea]/75 md:text-base">
+            Villas, penthouses and mansions for the very few. Discreet, curated and shown only by private appointment.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#featured" class="btn-gold magnetic">Explore Residences</a>
+            <a href="#contact" class="btn-outline magnetic">Private Viewing</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Side progress indicator -->
+      <div class="absolute right-5 top-1/2 z-10 hidden -translate-y-1/2 items-center gap-5 text-[#f5f1ea]/50 md:flex md:right-10">
+        <ul class="flex flex-col gap-4 text-right text-[11px] tracking-[0.3em]">
+          <li><button class="hero-dot" data-index="0" aria-label="Slide 1">01</button></li>
+          <li><button class="hero-dot" data-index="1" aria-label="Slide 2">02</button></li>
+          <li><button class="hero-dot" data-index="2" aria-label="Slide 3">03</button></li>
+          <li><button class="hero-dot" data-index="3" aria-label="Slide 4">04</button></li>
+        </ul>
+        <div class="relative h-40 w-px bg-[#f5f1ea]/20">
+          <div id="hero-progress" class="absolute inset-0 bg-gold"></div>
+        </div>
+      </div>
+
+      <!-- Mobile slide counter -->
+      <p class="absolute right-6 top-28 z-10 text-[11px] tracking-[0.3em] text-[#f5f1ea]/70 md:hidden"><span id="hero-count">01</span> / 04</p>
+
+      <!-- Scroll cue -->
+      <div class="absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-[10px] uppercase tracking-[0.35em] text-[#f5f1ea]/60 md:flex">
+        <span>Scroll</span>
+        <span class="scroll-cue block h-8 w-px bg-gold"></span>
+      </div>
+    </section>
+
+    <!-- ============ 3. MARQUEE ============ -->
+    <section class="overflow-hidden border-y border-gold/20 py-6" aria-hidden="true">
+      <div class="marquee-track font-serif text-3xl italic text-gold md:text-5xl">
+        <span class="whitespace-nowrap px-6">LUXURY • EXCLUSIVE • PRIVATE • ELITE • LUXURY • EXCLUSIVE • PRIVATE • ELITE •</span>
+        <span class="whitespace-nowrap px-6">LUXURY • EXCLUSIVE • PRIVATE • ELITE • LUXURY • EXCLUSIVE • PRIVATE • ELITE •</span>
+      </div>
+    </section>
+
+    <!-- ============ 4. ABOUT ============ -->
+    <section id="about" class="mx-auto grid max-w-7xl items-center gap-16 px-6 py-32 md:px-10 lg:grid-cols-2">
+      <div>
+        <p data-reveal class="eyebrow mb-5">The Agency</p>
+        <h2 data-split class="font-serif text-5xl leading-[1.05] md:text-6xl">Quiet luxury, found for the people who expect more</h2>
+        <p data-reveal class="mt-8 max-w-lg leading-relaxed text-muted">
+          For over two decades, MAISON ÉLITE has represented the rarest homes on earth. Many of our residences never reach
+          the open market. We pair each client with a private advisor and handle every detail with complete discretion.
+        </p>
+        <div data-reveal class="mt-10 flex flex-wrap gap-4">
+          <a href="#featured" class="btn-gold magnetic">View Collection</a>
+          <a href="#agents" class="btn-outline magnetic">Meet Our Advisors</a>
+        </div>
+      </div>
+      <div data-wipe class="relative h-[520px] overflow-hidden rounded-[40px] md:h-[640px]">
+        <img data-parallax src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&q=80" alt="Luxury villa exterior with lawn" class="absolute inset-x-0 -top-[10%] h-[120%] w-full object-cover" />
+        <div class="glass absolute bottom-6 left-6 right-6 rounded-[28px] p-6 text-[#f5f1ea] md:right-auto md:w-72">
+          <p class="eyebrow">Since 2001</p>
+          <p class="mt-3 font-serif text-2xl">$4.2B in private sales</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 5. FEATURED PROPERTIES (horizontal scroll) ============ -->
+    <section id="featured" class="relative overflow-hidden py-24 md:flex md:h-screen md:flex-col md:justify-center md:py-0">
+      <div class="mx-auto mb-12 flex w-full max-w-7xl items-end justify-between gap-6 px-6 md:px-10">
+        <div>
+          <p class="eyebrow mb-5">Featured</p>
+          <h2 data-split class="font-serif text-5xl leading-[1.05] md:text-6xl">Signature residences</h2>
+        </div>
+        <p class="hidden max-w-xs text-sm text-muted md:block">Keep scrolling to move through the collection.</p>
+      </div>
+      <div id="h-wrap" class="no-scrollbar overflow-x-auto md:overflow-visible">
+        <div id="featured-track" class="flex w-max gap-6 px-6 pb-4 md:gap-8 md:px-10"></div>
+      </div>
+    </section>
+
+    <!-- ============ 6. SEARCH & FILTER ============ -->
+    <section id="search" class="mx-auto max-w-7xl px-6 py-32 md:px-10">
+      <div data-reveal class="mb-12 max-w-2xl">
+        <p class="eyebrow mb-5">Search</p>
+        <h2 data-split class="font-serif text-5xl leading-[1.05] md:text-6xl">Find your residence</h2>
+      </div>
+
+      <div data-reveal class="glass grid gap-4 rounded-[32px] p-5 md:grid-cols-4 md:items-end md:p-6">
+        <div>
+          <label for="f-location" class="field-label">Location</label>
+          <select id="f-location" class="field-select"><option value="all">All locations</option></select>
+        </div>
+        <div>
+          <label for="f-type" class="field-label">Type</label>
+          <select id="f-type" class="field-select"><option value="all">All types</option></select>
+        </div>
+        <div>
+          <label for="f-price" class="field-label">Max Price</label>
+          <select id="f-price" class="field-select">
+            <option value="all">Any price</option>
+            <option value="10">Up to $10M</option>
+            <option value="20">Up to $20M</option>
+            <option value="30">Up to $30M</option>
+          </select>
+        </div>
+        <button id="f-reset" type="button" class="btn-outline magnetic w-full">Reset Filters</button>
+      </div>
+
+      <p id="result-count" class="mt-8 text-xs uppercase tracking-[0.3em] text-muted" aria-live="polite"></p>
+      <div id="search-grid" class="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3"></div>
+      <div id="no-results" class="glass mt-8 hidden rounded-[32px] p-12 text-center">
+        <p class="font-serif text-3xl">No residences match</p>
+        <p class="mt-3 text-sm text-muted">Try another location, type or price. Our advisors also hold off-market homes.</p>
+      </div>
+    </section>
+
+    <!-- ============ 7. STATS ============ -->
+    <section class="border-y border-gold/20">
+      <div class="mx-auto grid max-w-7xl grid-cols-2 gap-y-12 px-6 py-20 md:px-10 lg:grid-cols-4">
+        <div class="text-center">
+          <p class="font-serif text-5xl text-gold md:text-6xl"><span data-count="1240">0</span>+</p>
+          <p class="mt-3 text-xs uppercase tracking-[0.3em] text-muted">Properties Sold</p>
+        </div>
+        <div class="text-center">
+          <p class="font-serif text-5xl text-gold md:text-6xl"><span data-count="980">0</span>+</p>
+          <p class="mt-3 text-xs uppercase tracking-[0.3em] text-muted">Happy Clients</p>
+        </div>
+        <div class="text-center">
+          <p class="font-serif text-5xl text-gold md:text-6xl"><span data-count="25">0</span></p>
+          <p class="mt-3 text-xs uppercase tracking-[0.3em] text-muted">Years of Experience</p>
+        </div>
+        <div class="text-center">
+          <p class="font-serif text-5xl text-gold md:text-6xl"><span data-count="18">0</span></p>
+          <p class="mt-3 text-xs uppercase tracking-[0.3em] text-muted">Countries</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 8. WHY CHOOSE US ============ -->
+    <section class="mx-auto max-w-7xl px-6 py-32 md:px-10">
+      <div data-reveal class="mb-16 max-w-2xl">
+        <p class="eyebrow mb-5">Why Choose Us</p>
+        <h2 data-split class="font-serif text-5xl leading-[1.05] md:text-6xl">Service as rare as the homes we sell</h2>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <article data-reveal class="feature-card glass rounded-[32px] p-8">
+          <span class="icon-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l9-7 9 7v9H3v-9z"/><path d="M9 20v-6h6v6"/></svg>
+          </span>
+          <h3 class="mt-6 font-serif text-2xl">Off-Market Access</h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted">Private homes you will never see on public listings.</p>
+        </article>
+        <article data-reveal class="feature-card glass rounded-[32px] p-8">
+          <span class="icon-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>
+          </span>
+          <h3 class="mt-6 font-serif text-2xl">Global Network</h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted">Partners across 18 countries, from Monaco to Malibu.</p>
+        </article>
+        <article data-reveal class="feature-card glass rounded-[32px] p-8">
+          <span class="icon-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16v10H8l-4 4V6z"/></svg>
+          </span>
+          <h3 class="mt-6 font-serif text-2xl">Concierge Service</h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted">A dedicated advisor for your search, viewings and move.</p>
+        </article>
+        <article data-reveal class="feature-card glass rounded-[32px] p-8">
+          <span class="icon-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+          </span>
+          <h3 class="mt-6 font-serif text-2xl">Legal &amp; Financial Care</h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted">Full protection for every contract, transfer and wire.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ 9. INTERIORS GALLERY (masonry + lightbox) ============ -->
+    <section class="mx-auto max-w-7xl px-6 pb-32 md:px-10">
+      <div data-reveal class="mb-16 max-w-2xl">
+        <p class="eyebrow mb-5">Interiors</p>
+        <h2 data-split class="font-serif text-5xl leading-[1.05] md:text-6xl">Rooms designed to be remembered</h2>
+      </div>
+
+      <div class="columns-1 gap-6 sm:columns-2 lg:columns-3">
+        <button class="gallery-item group relative mb-6 block w-full break-inside-avoid overflow-hidden rounded-[32px]"
+          data-full="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=2000&q=85">
+          <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=900&q=80" alt="Bright bedroom with designer furniture" class="h-[420px] w-full object-cover transition duration-[1500ms] group-hover:scale-110" />
+        </button>
+        <button class="gallery-item group relative mb-6 block w-full break-inside-avoid overflow-hidden rounded-[32px]"
+          data-full="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=85">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80" alt="Open living room with natural light" class="h-[300px] w-full object-cover transition duration-[1500ms] group-hover:scale-110" />
+        </button>
+        <button class="gallery-item group relative mb-6 block w-full break-inside-avoid overflow-hidden rounded-[32px]"
+          data-full="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2000&q=85">
+          <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80" alt="Minimal luxury living space" class="h-[480px] w-full object-cover transition duration-[1500ms] group-hover:scale-110" />
+        </button>
+        <button class="gallery-item group relative mb-6 block w-full break-inside-avoid overflow-hidden rounded-[32px]"
+          data-full="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2000&q=85">
+          <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80" alt="Modern kitchen with marble island" class="h-[360px] w-full object-cover transition duration-[1500ms] group-hover:scale-110" />
+        </button>
+        <button class="gallery-item group relative mb-6 block w-full break-inside-avoid overflow-hidden rounded-[32px]"
+          data-full="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=2000&q=85">
+          <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80" alt="Designer kitchen and dining area" class="h-[320px] w-full object-cover transition duration-[1500ms] group-hover:scale-110" />
+        </button>
+        <button class="gallery-item group relative mb-6 block w-full break-inside-avoid overflow-hidden rounded-[32px]"
+          data-full="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80" alt="Villa with pool and floor-to-ceiling glass" class="h-[420px] w-full object-cover transition duration-[1500ms] group-hover:scale-110" />
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ 10. TESTIMONIALS SLIDER ============ -->
+    <section id="testimonials" class="border-y border-gold/20 py-32">
+      <div class="mx-auto max-w-5xl px-6 md:px-10">
+        <p data-reveal class="eyebrow mb-10 text-center">Client Words</p>
+
+        <div id="testi-viewport" class="overflow-hidden">
+          <div id="testi-track" class="flex transition-transform duration-[900ms] ease-[cubic-bezier(0.7,0,0.2,1)]">
+            <figure class="w-full shrink-0 px-2 text-center">
+              <blockquote class="font-serif text-2xl leading-snug md:text-4xl">“They found us a villa in Dubai that was never listed. Every step felt private, calm and perfectly handled.”</blockquote>
+              <figcaption class="mt-10 flex items-center justify-center gap-4">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80" alt="" class="h-14 w-14 rounded-full object-cover" />
+                <span class="text-left"><span class="block font-medium">Alexander Reyes</span><span class="text-xs uppercase tracking-[0.25em] text-muted">Private Investor, Madrid</span></span>
+              </figcaption>
+            </figure>
+            <figure class="w-full shrink-0 px-2 text-center">
+              <blockquote class="font-serif text-2xl leading-snug md:text-4xl">“Discretion was everything for our family. MAISON ÉLITE delivered our Monaco penthouse without a single headline.”</blockquote>
+              <figcaption class="mt-10 flex items-center justify-center gap-4">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=160&q=80" alt="" class="h-14 w-14 rounded-full object-cover" />
+                <span class="text-left"><span class="block font-medium">Isabella Laurent</span><span class="text-xs uppercase tracking-[0.25em] text-muted">Founder, Laurent Maison</span></span>
+              </figcaption>
+            </figure>
+            <figure class="w-full shrink-0 px-2 text-center">
+              <blockquote class="font-serif text-2xl leading-snug md:text-4xl">“From the first viewing to the final wire, our advisor treated our Aspen purchase like it was his own home.”</blockquote>
+              <figcaption class="mt-10 flex items-center justify-center gap-4">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=80" alt="" class="h-14 w-14 rounded-full object-cover" />
+                <span class="text-left"><span class="block font-medium">James Whitmore</span><span class="text-xs uppercase tracking-[0.25em] text-muted">CEO, Whitmore Capital</span></span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="mt-12 flex items-center justify-center gap-6">
+          <button id="testi-prev" aria-label="Previous testimonial" class="magnetic grid h-12 w-12 place-items-center rounded-full border border-gold/40 text-gold transition-colors hover:bg-gold/10">←</button>
+          <div id="testi-dots" class="flex items-center gap-3"></div>
+          <button id="testi-next" aria-label="Next testimonial" class="magnetic grid h-12 w-12 place-items-center rounded-full border border-gold/40 text-gold transition-colors hover:bg-gold/10">→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 11. MEET THE AGENTS ============ -->
+    <section id="agents" class="mx-auto max-w-7xl px-6 py-32 md:px-10">
+      <div data-reveal class="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div class="max-w-2xl">
+          <p class="eyebrow mb-5">Our Advisors</p>
+          <h2 data-split class="font-serif text-5xl leading-[1.05] md:text-6xl">Meet the agents</h2>
+        </div>
+        <p class="max-w-sm text-sm text-muted">Each advisor handles only a few clients at a time, so you always have their full attention.</p>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <article data-reveal class="agent group relative overflow-hidden rounded-[32px]">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" alt="Portrait of Julian Hart" class="h-[440px] w-full object-cover transition duration-[1500ms] group-hover:scale-110" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/10 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-6 text-[#f5f1ea]">
+            <h3 class="font-serif text-2xl">Julian Hart</h3>
+            <p class="mt-1 text-xs uppercase tracking-[0.25em] text-gold">Managing Partner</p>
+            <div class="socials mt-4 flex gap-4 transition duration-500 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+              <a href="#" class="nav-link" aria-label="Julian Hart on LinkedIn">LinkedIn</a>
+              <a href="#" class="nav-link" aria-label="Julian Hart on Instagram">Instagram</a>
+              <a href="#contact" class="nav-link">Email</a>
+            </div>
+          </div>
+        </article>
+        <article data-reveal class="agent group relative overflow-hidden rounded-[32px]">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80" alt="Portrait of Sofia Marchetti" class="h-[440px] w-full object-cover transition duration-[1500ms] group-hover:scale-110" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/10 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-6 text-[#f5f1ea]">
+            <h3 class="font-serif text-2xl">Sofia Marchetti</h3>
+            <p class="mt-1 text-xs uppercase tracking-[0.25em] text-gold">Europe Director</p>
+            <div class="socials mt-4 flex gap-4 transition duration-500 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+              <a href="#" class="nav-link" aria-label="Sofia Marchetti on LinkedIn">LinkedIn</a>
+              <a href="#" class="nav-link" aria-label="Sofia Marchetti on Instagram">Instagram</a>
+              <a href="#contact" class="nav-link">Email</a>
+            </div>
+          </div>
+        </article>
+        <article data-reveal class="agent group relative overflow-hidden rounded-[32px]">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80" alt="Portrait of Omar Haddad" class="h-[440px] w-full object-cover transition duration-[1500ms] group-hover:scale-110" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/10 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-6 text-[#f5f1ea]">
+            <h3 class="font-serif text-2xl">Omar Haddad</h3>
+            <p class="mt-1 text-xs uppercase tracking-[0.25em] text-gold">Middle East Lead</p>
+            <div class="socials mt-4 flex gap-4 transition duration-500 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+              <a href="#" class="nav-link" aria-label="Omar Haddad on LinkedIn">LinkedIn</a>
+              <a href="#" class="nav-link" aria-label="Omar Haddad on Instagram">Instagram</a>
+              <a href="#contact" class="nav-link">Email</a>
+            </div>
+          </div>
+        </article>
+        <article data-reveal class="agent group relative overflow-hidden rounded-[32px]">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=800&q=80" alt="Portrait of Claire Duval" class="h-[440px] w-full object-cover transition duration-[1500ms] group-hover:scale-110" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/10 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-6 text-[#f5f1ea]">
+            <h3 class="font-serif text-2xl">Claire Duval</h3>
+            <p class="mt-1 text-xs uppercase tracking-[0.25em] text-gold">Americas Advisor</p>
+            <div class="socials mt-4 flex gap-4 transition duration-500 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+              <a href="#" class="nav-link" aria-label="Claire Duval on LinkedIn">LinkedIn</a>
+              <a href="#" class="nav-link" aria-label="Claire Duval on Instagram">Instagram</a>
+              <a href="#contact" class="nav-link">Email</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ 12. CONTACT / BOOK A PRIVATE VIEWING ============ -->
+    <section id="contact" class="mx-auto max-w-7xl px-6 pb-32 md:px-10">
+      <div class="glass grid gap-12 rounded-[40px] p-6 md:p-12 lg:grid-cols-5 lg:p-16">
+        <div class="lg:col-span-2">
+          <p data-reveal class="eyebrow mb-5">Private Viewing</p>
+          <h2 data-split class="font-serif text-5xl leading-[1.05] md:text-6xl">Book a private viewing</h2>
+          <p data-reveal class="mt-6 leading-relaxed text-muted">Tell us what you are looking for. A senior advisor will reply within 24 hours, always in confidence.</p>
+          <div data-reveal class="mt-10 space-y-4 text-sm">
+            <p><span class="eyebrow mr-3">Phone</span> +971 4 000 0000</p>
+            <p><span class="eyebrow mr-3">Email</span> private@maisonelite.com</p>
+            <p><span class="eyebrow mr-3">Office</span> Dubai · Monaco · Aspen</p>
+          </div>
+        </div>
+
+        <form id="contact-form" class="lg:col-span-3" novalidate>
+          <div class="grid gap-5 md:grid-cols-2">
+            <div>
+              <div class="relative">
+                <input id="c-name" name="name" type="text" autocomplete="name" placeholder=" " aria-describedby="err-name" class="field-input has-float" />
+                <label for="c-name" class="float-label">Full Name</label>
+              </div>
+              <p id="err-name" class="field-error" aria-live="polite"></p>
+            </div>
+            <div>
+              <div class="relative">
+                <input id="c-email" name="email" type="email" autocomplete="email" placeholder=" " aria-describedby="err-email" class="field-input has-float" />
+                <label for="c-email" class="float-label">Email Address</label>
+              </div>
+              <p id="err-email" class="field-error" aria-live="polite"></p>
+            </div>
+            <div>
+              <div class="relative">
+                <input id="c-phone" name="phone" type="tel" autocomplete="tel" placeholder=" " aria-describedby="err-phone" class="field-input has-float" />
+                <label for="c-phone" class="float-label">Phone (optional)</label>
+              </div>
+              <p id="err-phone" class="field-error" aria-live="polite"></p>
+            </div>
+            <div>
+              <div class="relative">
+                <select id="c-property" name="property" aria-label="Property of interest" aria-describedby="err-property" class="field-select">
+                  <option value="">Choose a property</option>
+                </select>
+                <span class="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-gold">▾</span>
+              </div>
+              <p id="err-property" class="field-error" aria-live="polite"></p>
+            </div>
+            <div class="md:col-span-2">
+              <div class="relative">
+                <textarea id="c-message" name="message" rows="4" placeholder=" " class="field-textarea has-float resize-none"></textarea>
+                <label for="c-message" class="float-label">Message (optional)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+            <button type="submit" class="btn-gold magnetic">Request Viewing</button>
+            <p class="text-xs text-muted">Your details stay private. We never share them.</p>
+          </div>
+          <p id="form-success" class="mt-6 hidden rounded-[20px] border border-gold/40 bg-gold/10 p-5 text-sm text-gold" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ 13. FOOTER ============ -->
+  <footer class="border-t border-gold/20 pt-20">
+    <div class="mx-auto grid max-w-7xl gap-12 px-6 md:grid-cols-2 md:px-10 lg:grid-cols-4">
+      <div class="lg:col-span-2">
+        <p class="font-serif text-3xl">Private listings, first.</p>
+        <p class="mt-3 max-w-md text-sm text-muted">Join our private letter for new off-market residences, sent once a month.</p>
+        <form id="newsletter-form" class="mt-6 flex max-w-md flex-col gap-3 sm:flex-row" novalidate>
+          <label for="newsletter-email" class="sr-only">Email address</label>
+          <input id="newsletter-email" type="email" placeholder="Your email address" class="field-input !rounded-full" />
+          <button type="submit" class="btn-gold magnetic shrink-0">Subscribe</button>
+        </form>
+        <p id="newsletter-msg" class="mt-3 min-h-[1.25rem] pl-2 text-xs" aria-live="polite"></p>
+      </div>
+      <div>
+        <p class="eyebrow mb-5">Explore</p>
+        <ul class="space-y-3 text-sm text-muted">
+          <li><a href="#about" class="nav-link hover:text-ivory">About</a></li>
+          <li><a href="#featured" class="nav-link hover:text-ivory">Properties</a></li>
+          <li><a href="#search" class="nav-link hover:text-ivory">Search</a></li>
+          <li><a href="#agents" class="nav-link hover:text-ivory">Agents</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow mb-5">Contact</p>
+        <ul class="space-y-3 text-sm text-muted">
+          <li>private@maisonelite.com</li>
+          <li>+971 4 000 0000</li>
+          <li><a href="#contact" class="nav-link hover:text-ivory">Book a Viewing</a></li>
+          <li class="flex gap-4 pt-2"><a href="#" class="nav-link hover:text-ivory">Instagram</a><a href="#" class="nav-link hover:text-ivory">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="footer-word mt-20 select-none overflow-hidden whitespace-nowrap px-4 text-center font-serif text-ivory/10" aria-hidden="true">MAISON <span class="text-gold/40">ÉLITE</span></p>
+
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-gold/20 px-6 py-8 text-xs text-muted md:flex-row md:px-10">
+      <p>© <span id="year">2026</span> MAISON ÉLITE. All rights reserved.</p>
+      <p>Luxury Villas · Penthouses · Mansions</p>
+    </div>
+  </footer>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <div id="lightbox" class="invisible fixed inset-0 z-[80] flex items-center justify-center bg-[#0a0a0a]/90 p-4 opacity-0 backdrop-blur-md md:p-12" role="dialog" aria-modal="true" aria-label="Image preview">
+    <button id="lightbox-close" aria-label="Close preview" class="absolute right-5 top-5 grid h-12 w-12 place-items-center rounded-full border border-gold/50 text-2xl text-gold">×</button>
+    <button id="lightbox-prev" aria-label="Previous image" class="absolute left-3 top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-gold/50 text-gold md:left-8">←</button>
+    <img id="lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="" class="max-h-[85vh] max-w-full rounded-[32px] object-contain" />
+    <button id="lightbox-next" aria-label="Next image" class="absolute right-3 top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-gold/50 text-gold md:right-8">→</button>
+  </div>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
